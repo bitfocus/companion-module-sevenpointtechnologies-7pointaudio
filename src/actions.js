@@ -117,9 +117,22 @@ module.exports = function (self) {
 		},
       startPlaylist: {
 			name: 'Start Playlist',
-			options: [],
+			options: [
+				{
+					type: 'number',
+					label: 'Playlist ID (optional)',
+					id: 'playlistid',
+					default: null,
+					min: 0,
+					required: false,
+				},
+			],
 			callback: async (event) => {
-				let cmd = 'startplaylist'
+				let opt = event.options
+				let cmd =
+					opt.playlistid !== null && opt.playlistid !== undefined && opt.playlistid !== ''
+						? `startplaylist ${parseInt(opt.playlistid)}`
+						: 'startplaylist'
 				sendUDPMessage(cmd, 'Start Playlist')
 			},
 		},
